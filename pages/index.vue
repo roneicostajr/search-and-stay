@@ -1,11 +1,9 @@
 <!-- eslint-disable import/no-extraneous-dependencies -->
 <template>
-  <div class="container v-100">
-    <div class="row">
-      <house-rule v-for="rule in houseRules" :key="rule.id" :rule-info="rule" />
-  <Tutorial />
-    </div>
-  </div>
+  <b-container class="pt-4">
+    <house-rule v-for="rule in houseRules" :key="rule.id" :rule-info="rule" />
+    <new-house-rule />
+  </b-container>
 </template>
 
 <script>
@@ -27,12 +25,11 @@ export default {
 
 <style>
 .house-rule {
-  height: 200px;
-  min-width: 275px;
-  border: 1px solid orangered;
+  height: 50px;
+  min-width: 300px;
   border-radius: 15px;
   box-sizing: border-box;
-  margin: 10px;
-  padding: 15px;
+  background-color: white;
+  padding: 0px 15px;
 }
 </style>

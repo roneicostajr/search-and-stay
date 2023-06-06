@@ -3,3 +3,21 @@ body,
 #__layout {
   height: 100vh;
 }
+
+body {
+  background-color: #f5f6fa;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+  background-color: #fb3b11;
+  border-color: #fb3b11;
+}
+
+.custom-control-input:not(:checked) ~ .custom-control-label::before {
+  background-color: #b8b8b8;
+  border-color: #b8b8b8;
+}
+
+.custom-switch .custom-control-label::after {
+  background-color: #fff;
+}
