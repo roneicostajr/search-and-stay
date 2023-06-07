@@ -1,11 +1,23 @@
 /* eslint-disable */
 export const state = () => ({
   houseRules: [],
+  hasMultiplePages: false,
+  pagination: null,
+  areRulesLoading: true,
 });
 
 export const getters = {
-  houseRules(state) {
-    return state.houseRules;
+  houseRules({ houseRules }) {
+    return houseRules;
+  },
+  hasMultiplePages({ hasMultiplePages }) {
+    return hasMultiplePages;
+  },
+  pagination({ pagination }) {
+    return pagination;
+  },
+  areRulesLoading({ areRulesLoading }) {
+    return areRulesLoading;
   },
 };
 
@@ -26,6 +38,17 @@ export const mutations = {
     const ruleIndex = state.houseRules.findIndex((rule) => rule.id === ruleId);
     if (ruleIndex !== -1) state.houseRules.splice(ruleIndex, 1);
   },
+  setPagination(state, pagination) {
+    state.hasMultiplePages = true;
+    state.pagination = pagination;
+  },
+  rulesAreLoaded(state) {
+    state.areRulesLoading = false;
+  },
+  setSinglePage(state) {
+    state.hasMultiplePages = false;
+    state.pagination = null;
+  },
 };
 
 const hasDuplicate = (rules, ruleName) => {
@@ -33,11 +56,21 @@ const hasDuplicate = (rules, ruleName) => {
 };
 
 export const actions = {
-  async getHouseRules({ commit }) {
+  async getHouseRules({ commit }, page = 1) {
+    const params = {};
+
+    if (page > 1) params.page = page;
+    console.log(params);
     this.$axios
-      .$get('https://sys-dev.searchandstay.com/api/admin/house_rules')
+      .$get('https://sys-dev.searchandstay.com/api/admin/house_rules', {
+        params,
+      })
       .then((response) => {
-        commit('updateRuleList', response.data.entities);
+        const { entities, pagination } = response.data;
+        commit('updateRuleList', entities);
+        commit('rulesAreLoaded');
+        if (pagination.total_pages > 1) commit('setPagination', pagination);
+        else commit('setSinglePage');
       });
   },
   async createNewRule({ commit, state }, house_rules) {
