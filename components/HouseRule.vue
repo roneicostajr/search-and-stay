@@ -34,7 +34,10 @@
 
       <div class="">
         <div class="justify-content-start d-flex">
-          <b-button class="action delete" :id="'delete-rule-' + ruleInfo.id"
+          <b-button
+            class="action delete"
+            :id="'delete-rule-' + ruleInfo.id"
+            @click="promptDelete"
             ><b-icon icon="trash-fill"></b-icon
           ></b-button>
         </div>
@@ -60,7 +63,7 @@ export default {
   },
   mounted() {},
   methods: {
-    ...mapActions(['updateRule']),
+    ...mapActions(['updateRule', 'deleteRule']),
     toggleUpdate() {
       this.editableRule.name = this.ruleInfo.name;
       this.isEditing = !this.isEditing;
@@ -73,6 +76,38 @@ export default {
       if (updateSuccess) {
         this.isEditing = false;
       }
+    },
+    promptDelete() {
+      const swalOptions = {
+        confirmButtonText: 'Confirmar',
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#FF6767',
+        cancelButtonColor: '#D9D9D9',
+        showCancelButton: true,
+        text: `Confirmar a exclusão da regra "${this.ruleInfo.name}"`,
+        customClass: {
+          cancelButton: 'delete-cancel',
+        },
+      };
+      this.$swal(swalOptions).then((result) => {
+        if (result.isConfirmed) return this.confirmDelete();
+        return this.$swal.close();
+      });
+    },
+    async confirmDelete() {
+      const { error } = await this.deleteRule(this.ruleInfo.id);
+      if (!error) {
+        return this.$bvToast.toast('Rule removed successfully', {
+          autoHideDelay: 5000,
+          variant: 'success',
+          title: 'Removed',
+        });
+      }
+      return this.$bvToast.toast('There was an error deleting this rule', {
+        autoHideDelay: 5000,
+        variant: 'danger',
+        title: 'Error',
+      });
     },
   },
 };
@@ -100,5 +135,9 @@ button.action.delete:hover {
 .name-edit .b-icon {
   color: #28a744;
   cursor: pointer;
+}
+
+.delete-cancel {
+  color: black;
 }
 </style>

@@ -22,6 +22,10 @@ export const mutations = {
     );
     if (ruleIndex !== -1) state.houseRules.splice(ruleIndex, 1, updatedRule);
   },
+  removeRuleById(state, ruleId) {
+    const ruleIndex = state.houseRules.findIndex((rule) => rule.id === ruleId);
+    if (ruleIndex !== -1) state.houseRules.splice(ruleIndex, 1);
+  },
 };
 
 const hasDuplicate = (rules, ruleName) => {
@@ -49,7 +53,7 @@ export const actions = {
         if (state.houseRules.length >= 10)
           return { error: null, status: 'CREATED_ON_ANOTHER_PAGE' };
         commit('addRuleToList', response.data);
-        return { error: null, status: 'CREATED' };
+        return { error: null, status: 'SUCCESS' };
       });
   },
   async updateRule({ commit }, updatedRule) {
@@ -62,6 +66,19 @@ export const actions = {
       .then((response) => {
         commit('updateRuleById', response.data);
         return true;
+      });
+  },
+  async deleteRule({ commit }, ruleId) {
+    return this.$axios
+      .$delete(
+        `https://sys-dev.searchandstay.com/api/admin/house_rules/${ruleId}`,
+      )
+      .then(() => {
+        commit('removeRuleById', ruleId);
+        return { error: null, status: 'SUCCESS' };
+      })
+      .catch(() => {
+        return { error: 'GENERIC_ERROR' };
       });
   },
 };
