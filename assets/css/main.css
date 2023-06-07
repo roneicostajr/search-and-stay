@@ -13,6 +13,11 @@ body {
   border-color: #fb3b11;
 }
 
+.custom-control-input:checked:disabled ~ .custom-control-label::before {
+  background-color: #ff8f77 !important;
+  border-color: #fb3b11;
+}
+
 .custom-control-input:not(:checked) ~ .custom-control-label::before {
   background-color: #b8b8b8;
   border-color: #b8b8b8;
@@ -20,4 +25,46 @@ body {
 
 .custom-switch .custom-control-label::after {
   background-color: #fff;
+}
+
+.house-rule {
+  height: 50px;
+  min-width: 300px;
+  border-radius: 15px;
+  box-sizing: border-box;
+  background-color: white;
+  padding: 0px 15px;
+}
+
+input[type='text'] {
+  box-shadow: 0 0 2px #b8b8b8;
+}
+
+input[type='text']:focus {
+  box-shadow: 0 0 10px #b8b8b8;
+}
+
+#new-rule button {
+  background-color: #fb3b11;
+  border-color: #fb3b11;
+}
+input[type='text'] {
+  border: none;
+  outline: none;
+  font-weight: lighter;
+  color: #909090;
+  border-radius: 5px;
+}
+
+.name-edit button {
+  backface-visibility: hidden;
+}
+
+.name-edit .b-icon {
+  color: #28a744;
+  cursor: pointer;
+}
+
+.action:disabled {
+  background-color: transparent;
 }

@@ -23,13 +23,4 @@ export default {
 };
 </script>
 
-<style>
-.house-rule {
-  height: 50px;
-  min-width: 300px;
-  border-radius: 15px;
-  box-sizing: border-box;
-  background-color: white;
-  padding: 0px 15px;
-}
-</style>
+<style></style>

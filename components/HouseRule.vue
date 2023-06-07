@@ -13,6 +13,12 @@
           font-scale="0.90"
           @click="confirmUpdate"
         ></b-icon>
+        <b-icon
+          icon="x-square-fill"
+          font-scale="0.90"
+          @click="toggleUpdate"
+          variant="danger"
+        ></b-icon>
       </div>
     </div>
 
@@ -21,7 +27,7 @@
         <b-button
           class="action edit"
           :id="'edit-rule-' + ruleInfo.id"
-          @click.capture="enableUpdate"
+          @click="toggleUpdate"
           ><b-icon icon="pencil-fill"></b-icon
         ></b-button>
       </div>
@@ -55,7 +61,7 @@ export default {
   mounted() {},
   methods: {
     ...mapActions(['updateRule']),
-    enableUpdate() {
+    toggleUpdate() {
       this.editableRule.name = this.ruleInfo.name;
       this.isEditing = !this.isEditing;
     },
@@ -85,13 +91,6 @@ button.action.edit:hover {
 
 button.action.delete:hover {
   color: #ff6767;
-}
-
-input[type='text'] {
-  border: none;
-  outline: #b8b8b8;
-  font-weight: lighter;
-  color: #909090;
 }
 
 .name-edit button {

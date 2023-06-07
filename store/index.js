@@ -13,6 +13,9 @@ export const mutations = {
   updateRuleList(state, rules) {
     state.houseRules = rules;
   },
+  addRuleToList(state, rule) {
+    state.houseRules.push(rule);
+  },
   updateRuleById(state, updatedRule) {
     const ruleIndex = state.houseRules.findIndex(
       (rule) => rule.id === updatedRule.id,
@@ -21,12 +24,32 @@ export const mutations = {
   },
 };
 
+const hasDuplicate = (rules, ruleName) => {
+  return rules.find(({ name }) => name.trim() === ruleName.trim());
+};
+
 export const actions = {
   async getHouseRules({ commit }) {
     this.$axios
       .$get('https://sys-dev.searchandstay.com/api/admin/house_rules')
       .then((response) => {
         commit('updateRuleList', response.data.entities);
+      });
+  },
+  async createNewRule({ commit, state }, house_rules) {
+    if (hasDuplicate(state.houseRules, house_rules.name)) {
+      return { error: 'HAS_DUPLICATE' };
+    }
+
+    return this.$axios
+      .$post('https://sys-dev.searchandstay.com/api/admin/house_rules', {
+        house_rules,
+      })
+      .then((response) => {
+        if (state.houseRules.length >= 10)
+          return { error: null, status: 'CREATED_ON_ANOTHER_PAGE' };
+        commit('addRuleToList', response.data);
+        return { error: null, status: 'CREATED' };
       });
   },
   async updateRule({ commit }, updatedRule) {
