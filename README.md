@@ -41,14 +41,14 @@ Here is a roadmap for the development of this web app:
 - [x] Create a new Nuxt project.
 - [x] Install required dependencies (`vue`, `nuxt`, `bootstrap-vue`, etc.).
 - [x] Set up basic project structure.
-- [ ] Create necessary components and pages.
+- [x] Create necessary components and pages.
 
 ### Step 2: Design the user interface
 
 - [x] Set up Bootstrap-vue for layouting.
-- [ ] Create components for displaying house rules list, details, create, update, and delete forms.
-- [ ] Style the components according to the design requirements.
-- [ ] Ensure responsiveness and compatibility across different devices and browsers.
+- [x] Create components for displaying house rules list, details, create, update, and delete forms.
+- [x] Style the components according to the design requirements.
+- [x] Ensure responsiveness and compatibility across different devices and browsers.
 
 ### Step 4: Test and debug
 
