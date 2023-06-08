@@ -1,7 +1,11 @@
 <template>
   <b-row class="house-rule w-100 my-1 align-items-center m-0">
     <div class="ml-2">
-      <b-form-checkbox :checked="!!ruleInfo.active" switch></b-form-checkbox>
+      <b-form-checkbox
+        :checked="editableRule.active"
+        @change="changeActiveStatus"
+        switch
+      ></b-form-checkbox>
     </div>
 
     <div class="ml-2">
@@ -57,16 +61,23 @@ export default {
       isEditing: false,
       editableRule: {
         name: this.ruleInfo.name,
-        active: this.ruleInfo.active,
+        active: !!this.ruleInfo.active,
       },
     };
   },
-  mounted() {},
   methods: {
     ...mapActions(['updateRule', 'deleteRule']),
     toggleUpdate() {
       this.editableRule.name = this.ruleInfo.name;
       this.isEditing = !this.isEditing;
+    },
+    async changeActiveStatus() {
+      this.editableRule.active = !this.editableRule.active;
+      const houseRules = {
+        ...this.editableRule,
+        active: this.editableRule.active ? 1 : 0,
+      };
+      await this.updateRule({ ...houseRules, id: this.ruleInfo.id });
     },
     async confirmUpdate() {
       const updateSuccess = await this.updateRule({
@@ -139,5 +150,9 @@ button.action.delete:hover {
 
 .delete-cancel {
   color: black;
+}
+
+.updating {
+  pointer-events: none;
 }
 </style>

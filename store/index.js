@@ -60,7 +60,6 @@ export const actions = {
     const params = {};
 
     if (page > 1) params.page = page;
-    console.log(params);
     this.$axios
       .$get('https://sys-dev.searchandstay.com/api/admin/house_rules', {
         params,
